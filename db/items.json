@@ -1,0 +1,92 @@
+[
+    {
+        "id": 100000,
+        "data": {
+            "type": "Ship",
+            "name": "AL Avrora",
+            "description": "Soviet special premium Tier III cruiser. Avrora is a light Pallada-class cruiser and one of the oldest ships of the Northern Parliament. Her name means 'dawn.' From the Azur Lane game. AL Avrora was first released for sale on 27 May 2022.",
+            "price": 13000
+        },
+        "is_storable": false
+    },
+    {
+        "id": 100001,
+        "data": {
+            "type": "Ship",
+            "name": "Dante Alighieri",
+            "description": "Italian Tier IV battleship. The beginning of the dreadnought race was ignored by Italy due to the high cost of ships of the new class and the commissioning of pre-dreadnought battleships. The project for the first dreadnought began only in 1908. It was the first time triple main battery turrets were used, and anti-mine guns were mounted in the turrets. Built according to this project, Dante Alighieri embarked on as many as four naval missions in World War I as the flagship of the Italian fleet.",
+            "price": 19500
+        },
+        "is_storable": false
+    },
+    {
+        "id": 100002,
+        "data": {
+            "type": "Ship",
+            "name": "Valkyrie",
+            "description": "British Tier III destroyer. One of the V-class destroyer flotilla leaders which defined the main features of British destroyers for nearly two more decades. She stood apart from her predecessors due to her size, larger number of guns, and their more advantageous location.",
+            "price": 11000
+        },
+        "is_storable": false
+    },
+    {
+        "id": 100003,
+        "data": {
+            "type": "Ship",
+            "name": "Mikasa",
+            "description": "Japanese special premium Tier II battleship. The best squadron battleship of the Imperial Japanese Navy during the Russo-Japanese War. The ship was well-balanced, with very good armament, armor, and speed for her time. However, Mikasa was in many respects largely inferior to successive dreadnought battleships.",
+            "price": 9000
+        },
+        "is_storable": false
+    },
+    {
+        "id": 110000,
+        "data": {
+            "type": "Equipment",
+            "name": "Radar Module",
+        	"description": "Enhances your ship's detection range for better accuracy in battle.",
+        	"price": 500
+        },
+        "is_storable": true
+    },
+    {
+        "id": 110001,
+        "data": {
+            "type": "Equipment",
+            "name": "Sonar System",
+        	"description": "Detects enemy submarines and torpedoes to protect your ship.",
+        	"price": 200
+        },
+        "is_storable": true
+    },
+    {
+        "id": 110002,
+        "data": {
+            "type": "Equipment",
+            "name": "Engine Boost",
+        	"description": "Provides a temporary speed boost for your ship's engines.",
+        	"price": 2000
+        },
+        "is_storable": true
+    },
+    {
+        "id": 120000,
+        "data": {
+            "type": "Other",
+            "name": "Camouflage Paint",
+        	"description": "Reduces your ship's visibility and improves survivability in battle.",
+        	"price": 170
+        },
+        "is_storable": true
+    },
+    {
+        "id": 120001,
+        "data": {
+            "type": "Other",
+            "name": "Signal Flags",
+        	"description": "Various signal flags for enhancing your ship's abilities.",
+        	"price": 80
+        },
+        "is_storable": true
+    }
+]
