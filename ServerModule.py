@@ -4,7 +4,11 @@ from Items import *
 with db:
     db.create_tables([User])
 
-def show_user_data(user):
+def show_user_data(user_or_nickname):
+    if type(user_or_nickname) == str:
+       user = find_user_by_nickname(user_or_nickname)
+    else:
+        user = user_or_nickname
     print(f'User coins: {user.coins}')
     user_items = user.get_items().items()
     if len(user_items) == 0:
@@ -44,6 +48,9 @@ def login(nickname):
         if create_user == 'Y':
             user = add_new_user(nickname)
         else:
-            return
-    show_user_data(user)
+            return False
     add_user_login_reward(user)
+    return True
+
+def sell_item_by_id(item_id):
+    pass

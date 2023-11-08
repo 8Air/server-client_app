@@ -1,9 +1,18 @@
-from ServerModule import *
+from StateMachine import *
 
-print_data_base()
-#add_new_user("Wasgen")
+sm = StateMachine('login')
 
-#login(input("Enter nickname: "))
-
-#show_items_list()
-#show_item_info(find_item_by_id(100003))
+while sm.current_state != 'logout':
+    if sm.current_state == 'leave_or_stay':
+        sm.choose_stage(['C','login', 'continue'], ['E', 'logout', 'exit'])
+    elif sm.current_state == 'login':
+        if sm.login(input("Enter nickname: ")):
+            sm.current_state = 'welcome'
+        else:
+            sm.current_state = 'leave_or_stay'
+    elif sm.current_state == 'welcome':
+        sm.welcome()
+    elif sm.current_state == 'view_profile':
+        sm.view_profile(sm.nickname)
+    elif sm.current_state == 'show_items_list':
+        sm.show_items_list()
