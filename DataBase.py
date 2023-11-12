@@ -15,6 +15,9 @@ class User(Model):
     def get_items(self):
         return json.loads(self.items)
 
+    def get_coins(self):
+        return self.coins
+
     class Meta:
         database = db
         db_table = "users"
@@ -28,14 +31,22 @@ def find_user_by_nickname(nickname):
      try:
         return User.get(User.nickname == nickname)
      except User.DoesNotExist:
-        print('User is not found')
+         pass
 
 def change_coins_count(user, coins_count):
     user.coins = user.coins + coins_count
     user.save()
 
 def add_new_item_to_user(user, item_id):
-    pass
+    user_items = user.get_items()
+    try:
+        item_count = int(user_items[f'{item_id}']) + 1
+        user_items[f'{item_id}'] = f'{item_count}'
+    except KeyError:
+        user_items[f'{item_id}'] = '1'
+    user.set_items(user_items)
+    user.save()
+    print(user_items)
 
 def remove_item_from_user_inventory(user, item_id):
     pass

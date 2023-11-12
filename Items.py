@@ -1,23 +1,27 @@
-
 import json
 
 with open('db/items.json') as items_json:
     data = json.load(items_json)
 
-def show_item_info(item):
-    print(f"Type........{item['data']['type']}")
-    print(f"Name........{item['data']['name']}")
-    print(f"Price.......{item['data']['price']}")
-    print(f"Description:\n{item['data']['description']}")
+def get_item_info(item):
+    item_info = f"""ID..........{item['id']}
+Type........{item['data']['type']}
+Name........{item['data']['name']}
+Price.......{item['data']['price']}"
+Description:\n{item['data']['description']}""".strip()
+    return item_info
 
-def show_items_list():
+def get_items_list():
+    items_list = ''
     for item in data:
-        print(f"______________________________________________")
-        show_item_info(item)
-        print(f"______________________________________________")
+        items_list += f"""______________________________________________
+{get_item_info(item)}
+______________________________________________\n"""
+    return items_list
         
 
 def find_item_by_id(id):
     for item in data:
         if item['id'] == int(id):
             return item
+    return None
