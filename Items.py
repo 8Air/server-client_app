@@ -7,7 +7,7 @@ def get_item_info(item):
     item_info = f"""ID..........{item['id']}
 Type........{item['data']['type']}
 Name........{item['data']['name']}
-Price.......{item['data']['price']}"
+Price.......{item['data']['price']}
 Description:\n{item['data']['description']}""".strip()
     return item_info
 

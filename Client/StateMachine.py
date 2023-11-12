@@ -12,7 +12,7 @@ class StateMachine():
         return_code = Connection.get_client_socket().recv(1024)
         if return_code == b'no_user_return_code':
             message = f'''There is no user with nickname {nickname}.
-Do you want to create a new accaunt? [Y/N]\n'''
+Do you want to create a new account? [Y/N]\n'''
             answer = input(message).upper()
             Connection.send_message(answer)
             if answer == 'Y':
@@ -39,9 +39,6 @@ Do you want to create a new accaunt? [Y/N]\n'''
                   ['SL', 'sell_item', 'sell item']]
         self.choose_state(states)
 
-    def sell_item(self, item_id):
-        pass
-
     def get_items_list(self):
         Connection.sendall_message(self.current_state)
         received_data = ""
@@ -62,15 +59,17 @@ Do you want to create a new accaunt? [Y/N]\n'''
                   ['BY', 'buy_item', 'buy item']]
         self.choose_state(states)
 
-    def buy_item(self):
-        string = input("Enter item id (or CL to return)\n")
-        if string.upper() == 'CL':
+    def trade(self):
+        string = input("Enter item id (or BC to return)\n")
+        if string.upper() == 'BC':
             self.current_state = 'welcome'
             Connection.send_message(string)
             return
         try:
             item_id = int(string)
             Connection.send_message(string)
+            return_code = Connection.recive_message()
+            print(f"{return_code}")
         except ValueError:
             print("Wrong id format. Try again.")
 

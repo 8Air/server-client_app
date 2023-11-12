@@ -25,7 +25,9 @@ try:
             if items_list:
                 sm.current_state = 'show_items_list'
         elif sm.current_state == 'buy_item':
-            sm.buy_item()
+            sm.trade()
+        elif sm.current_state == 'sell_item':
+            sm.trade()
         else:
             print("State error: there is no such state or state is empty")
             break

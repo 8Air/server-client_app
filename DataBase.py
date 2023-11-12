@@ -37,7 +37,7 @@ def change_coins_count(user, coins_count):
     user.coins = user.coins + coins_count
     user.save()
 
-def add_new_item_to_user(user, item_id):
+def add_item_to_user(user, item_id):
     user_items = user.get_items()
     try:
         item_count = int(user_items[f'{item_id}']) + 1
@@ -46,7 +46,13 @@ def add_new_item_to_user(user, item_id):
         user_items[f'{item_id}'] = '1'
     user.set_items(user_items)
     user.save()
-    print(user_items)
 
-def remove_item_from_user_inventory(user, item_id):
-    pass
+def decrease_item_count(user, item_id):
+    user_items = user.get_items()
+    item_count = int(user_items[f'{item_id}']) - 1
+    if item_count == 0:
+        del user_items[f'{item_id}']
+    else:
+        user_items[f'{item_id}'] = f'{item_count}'
+    user.set_items(user_items)
+    user.save()
