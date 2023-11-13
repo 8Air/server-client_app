@@ -18,26 +18,26 @@ class User(Model):
     def get_coins(self):
         return self.coins
 
+    def change_coins_count(self, coins_count: int):
+        self.coins = self.coins + coins_count
+        self.save()
+
     class Meta:
         database = db
         db_table = "users"
 
-def add_new_user(nickname):
+def add_new_user(nickname: str):
     start_coins = 500
     User(nickname=nickname, coins=start_coins, items=json.dumps({})).save()
     return find_user_by_nickname(nickname)
 
-def find_user_by_nickname(nickname):
+def find_user_by_nickname(nickname: str):
      try:
         return User.get(User.nickname == nickname)
      except User.DoesNotExist:
          pass
 
-def change_coins_count(user, coins_count):
-    user.coins = user.coins + coins_count
-    user.save()
-
-def add_item_to_user(user, item_id):
+def add_item_to_user(user: User, item_id: int):
     user_items = user.get_items()
     try:
         item_count = int(user_items[f'{item_id}']) + 1
@@ -47,12 +47,16 @@ def add_item_to_user(user, item_id):
     user.set_items(user_items)
     user.save()
 
-def decrease_item_count(user, item_id):
-    user_items = user.get_items()
-    item_count = int(user_items[f'{item_id}']) - 1
+def decrease_item_count(user: User, item_id: int):
+    user_items: set = user.get_items()
+    item_count: int = int(user_items[f'{item_id}']) - 1
     if item_count == 0:
         del user_items[f'{item_id}']
     else:
         user_items[f'{item_id}'] = f'{item_count}'
     user.set_items(user_items)
     user.save()
+
+def add_user_login_reward(user: User):
+    login_reward: int = random.randint(1000, 3000)
+    user.change_coins_count(login_reward)

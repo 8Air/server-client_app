@@ -1,33 +1,58 @@
-
+from enum import Enum
 import socket
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-host = '127.0.0.1'
-port = 12345
+_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+_host = '127.0.0.1'
+_port = 12345
 
-server_socket.bind((host, port))
-server_socket.listen(2)
+_server_socket.bind((_host, _port))
+_server_socket.listen(2)
 
-client_socket = None
-client_address = None
+_client_socket = None
+_client_address = None
+
+
+class ReturnCode(Enum):
+    CREATE_ERROR    = b'Account creating error'
+    NO_USER         = b'User is not exist'
+    SUCCESS         = b'Success'
+
 
 def start_server():
-    global client_socket, client_address
-    client_socket, client_address = server_socket.accept()
+    global _client_socket, _client_address
+    _client_socket, _client_address = _server_socket.accept()
+    print(f"Connection from {_client_address}")
 
 def get_client_address():
-    return client_address
+    return _client_address
 
 def get_client_socket():
-    return client_socket
+    return _client_socket
 
 def get_server_socket():
-    return server_socket
+    return _server_socket
 
-def send_message(message):
-    client_socket.send(message.encode('utf-8'))
+def send_utf_message(message: str):
+    _client_socket.send(message.encode('utf-8'))
 
-def recive_message():
-    return client_socket.recv(1024).decode('utf-8')
+def send_byte_message(message: bytes):
+    _client_socket.send(message)
 
-print(f"Listening at {host}:{port}")
+def receive_utf_message():
+    return _client_socket.recv(1024).decode('utf-8')
+
+def receive_byte_message():
+    return _client_socket.recv(1024)
+
+def send_items_list(items_list: str):
+    string_with_endswith = items_list + '\0'
+    _client_socket.sendall(string_with_endswith.encode('utf-8'))
+
+def create_check():
+    answer: str = receive_utf_message()
+    if answer == 'Y':
+        return True
+    else:
+        return False
+
+print(f"Listening at {_host}:{_port}")

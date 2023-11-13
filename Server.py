@@ -1,32 +1,65 @@
-from StateMachine import *
+import ServerModule
+from StatesEnum import State
 
-sm = StateMachine('login')
+class StateMachine():
+    current_state: State = None
+    nickname: str = None
+
+    def __init__(self, start_state):
+        self.current_state = start_state
+
+    def choose_state(self):
+        self.current_state = ServerModule.Connection.receive_utf_message()
+        if self.current_state == 'show_items_listget_items_list':
+            pass
+    
+    def set_state(self, state: str):
+        self.current_state = state
+
+    def get_state(self):
+        return self.current_state
+
+sm = StateMachine(State.LOGIN.value)
 
 try:
     ServerModule.Connection.start_server()
-    client_address = ServerModule.Connection.get_client_address()
-    print(f"Connection from {client_address}")
 
-    while sm.current_state != 'logout':
-        if sm.current_state == 'leave_or_stay':
+    while sm.get_state() != State.LOGOUT.value:
+        state: str = sm.get_state()
+
+        if state == State.LEAVE.value:
             sm.choose_state()
-        elif sm.current_state == 'login':
-            if sm.login():
-                sm.current_state = 'welcome'
+
+        elif state == State.LOGIN.value:
+            sm.nickname = ServerModule.login()
+            if sm.nickname != None:
+                sm.set_state(State.WELCOME.value)
             else:
-                sm.current_state = 'leave_or_stay'
-        elif sm.current_state == 'welcome':
-            sm.welcome()
-        elif sm.current_state == 'view_profile':
-            sm.view_profile()
-        elif sm.current_state == 'show_items_list':
-            sm.show_items_list()
-        elif sm.current_state == 'get_items_list':
-            items_list = sm.send_items_list()
-        elif sm.current_state == 'buy_item':
-            sm.trade('buy')
-        elif sm.current_state == 'sell_item':
-            sm.trade('sell')
+                sm.set_state(State.LEAVE.value)
+
+        elif state == State.WELCOME.value:
+            sm.choose_state()
+
+        elif state == State.PROFILE.value:
+            ServerModule.send_user_profile_data(sm.nickname)
+            sm.choose_state()
+
+        elif state == State.SHOW_ITEMS.value:
+            sm.choose_state()
+
+        elif state == State.GET_ITEMS.value:
+            ServerModule.send_items_list()
+            sm.choose_state()
+
+        elif state == State.BUY_ITEM.value:
+            type = 'buy'
+            if not ServerModule.trade(sm.nickname, type):
+                sm.set_state(State.WELCOME.value)
+
+        elif state == State.SELL_ITEM.value:
+            type = 'sell'
+            if not ServerModule.trade(sm.nickname, type):
+                sm.set_state(State.WELCOME.value)
         else:
             print("State error: there is no such state or state is empty")
             break

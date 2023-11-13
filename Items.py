@@ -20,8 +20,12 @@ ______________________________________________\n"""
     return items_list
         
 
-def find_item_by_id(id):
+def find_item_by_id(id: int):
     for item in data:
         if item['id'] == int(id):
             return item
     return None
+
+def get_item_price(item_id: int):
+    item = find_item_by_id(item_id)
+    return item['data']['price']
